@@ -1,1 +1,15 @@
 This is a sample multithreaded emedded python application.
+
+This is a tutorial for how to embed python correctly inside a multi 
+threaded program. Python is a very neat language which is very easy to 
+embed inside C++ thanks to the boost::python library. But there are some 
+crucial parts which is missing from boost:python in regards to how to 
+manage GIL and thread state which I introduce here. Since this is my 
+first C++ tutorial I will include boost:thread as well as a quick hello 
+world application as well. 
+
+The text can be found at my blog: http://blog.medin.name
+
+http://blog.medin.name/2012/02/12/embedding-python-inside-a-multithreaded-c-program/
+
+// Michael Medin
