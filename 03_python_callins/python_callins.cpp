@@ -5,8 +5,8 @@
 namespace bp = boost::python;
 
 
-void hello() {
-	std::cout << "hello: from c++ (via Python)\n";
+void hello(int id) {
+	std::cout << "hello_cpp(" << id << ")\n";
 }
 
 BOOST_PYTHON_MODULE(TEST)
@@ -27,11 +27,11 @@ void print_py_error() {
 	PyErr_Clear();
 }
 
-void call_python(bp::dict &localDict) {
+void call_python(bp::dict &localDict, int id) {
 	try	{
 		bp::object scriptFunction = bp::extract<bp::object>(localDict["hello_python"]);
 		if(scriptFunction)
-			scriptFunction();
+			scriptFunction(id);
 		else
 			std::cout << "Script did not have a hello function!\n";
 	} catch(const bp::error_already_set &e) {
@@ -57,14 +57,12 @@ int MAIN(int argc, const unicode_char* argv[]) {
 		bp::object ignored = bp::exec(
 			"from TEST import hello_cpp\n"
 			"\n"
-			"hello_cpp()\n"
-			"\n"
-			"def hello_python():\n"
-			"	print 'Hello from Python (via c++)'"
+			"def hello_python(id):\n"
+			"	hello_cpp(id)\n"
 			"\n"
 			, localDict, localDict);
 
-		call_python(localDict);
+		call_python(localDict, 1234);
 	} catch(const bp::error_already_set &e) {
 		std::cout << "Exception in script: ";
 		print_py_error();

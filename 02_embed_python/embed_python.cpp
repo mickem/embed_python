@@ -5,8 +5,8 @@
 namespace bp = boost::python;
 
 
-void hello() {
-	std::cout << "hello: from c++ (via Python)\n";
+void hello(int id) {
+	std::cout << "hello_cpp(" << id << ")\n";
 }
 
 BOOST_PYTHON_MODULE(TEST)
@@ -29,7 +29,6 @@ void print_py_error() {
 
 int MAIN(int argc, const unicode_char* argv[]) {
 	Py_Initialize();
-
 	initTEST();
 
 	try	{
@@ -38,11 +37,12 @@ int MAIN(int argc, const unicode_char* argv[]) {
 		bp::dict localDict = globalDict.copy();
 
 		bp::object ignored = bp::exec(
-			"from TEST import hello\n"
+			"from TEST import hello_cpp\n"
 			"\n"
-			"hello_cpp()\n"
+			"hello_cpp(1234)\n"
 			"\n"
-			, localDict, localDict);	
+			, localDict, localDict);
+
 	} catch(const bp::error_already_set &e) {
 		std::cout << "Exception in script: ";
 		print_py_error();
